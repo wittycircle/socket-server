@@ -2,7 +2,7 @@
   "name": "socket-app",
   "version": "1.0.0",
   "description": "Wittycircle.com socket server",
-  "main": "server",
+  "main": "index",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
