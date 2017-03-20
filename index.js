@@ -5,7 +5,10 @@
 'use strict';
 
 
-const io = require('socket.io')();
+const io = require('socket.io')({
+        transports: ['websocket']
+    }),
+    cache = require('./lib/cache').init();
 
 io.on('connection', socket => {
     console.log(socket.id);
@@ -23,6 +26,7 @@ io.on('connection', socket => {
     socket.on('client::request::latest_messages', console.log);
     socket.on('client::request::invite', console.log);
     socket.on('client::autocomplete', streams.autocomplete);
+    socket.on('client::messages', streams.message)
 
 });
 
