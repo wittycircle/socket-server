@@ -8,7 +8,11 @@
 const io = require('socket.io')({
         transports: ['websocket']
     }),
-    cache = require('./lib/cache').init();
+    cache = require('./lib/cache').init(),
+    dispatch = require('./lib/dispatch'),
+    events = require('./lib/events');
+
+dispatch.watch(events.data);
 
 io.on('connection', socket => {
     console.log(socket.id);
