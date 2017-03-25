@@ -4,19 +4,14 @@
 
 'use strict';
 
-
 const io = require('socket.io')({
         transports: ['websocket']
     }),
     cache = require('./lib/cache').init(),
-    dispatch = require('./lib/dispatch'),
-    events = require('./lib/events');
-
-dispatch.watch(events.data);
+    events = require('./lib/events'),
+    dispatch = require('./lib/dispatch')(events.data);
 
 io.on('connection', socket => {
-    console.log(socket.id);
-
     socket.isAuthenticated = false;
 
     const middlewares = require('./lib/middlewares')(socket),
@@ -27,11 +22,13 @@ io.on('connection', socket => {
     socket.use(middlewares.validate);
 
     socket.on('client::authenticate', streams.authenticate);
+    socket.on('client::autocomplete', streams.autocomplete);
+
     socket.on('client::request::latest_messages', console.log);
     socket.on('client::request::invite', console.log);
-    socket.on('client::autocomplete', streams.autocomplete);
-    socket.on('client::messages', streams.message)
+    socket.on('client::messages', streams.message);
 
+    dispatch.register(socket)
 });
 
 io.listen(process.env.PORT || 3200);
