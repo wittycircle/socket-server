@@ -1,3 +1,5 @@
+:danger: Documentation is currently incomplete please refer to code annotations for the moment
+
 #Architecture
 ##Client stream
 ###`client::authenticate` - _public_
