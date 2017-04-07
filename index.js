@@ -22,8 +22,3 @@ const Dispatcher = require('./lib/core/dispatch'),
  * Take a ride into madness
  */
 dispatcher.start();
-
-/**
- * Starts socket.io
- */
-io.listen(process.env.PORT || 3200);
