@@ -5,20 +5,23 @@
 'use strict';
 
 const io = require('socket.io')({
-        // transports: ['websocket']
-    }),
-    cache = require('./lib/cache').init();
+    // transports: ['websocket']
+});
 
-//Import options
-const opts = require('./lib/config');
+const cache = require('./lib/cache').init();
 
-const Dispatcher = require('./lib/core/dispatch'),
+cache.then(() => {
+    //Import options
+    const opts = require('./lib/config');
+
+    const Dispatcher = require('./lib/core/dispatch'),
+        /**
+         * Create a new dispatcher which handles redis and socket.io as streams with observable magic
+         */
+        dispatcher = new Dispatcher(io, opts);
+
     /**
-     * Create a new dispatcher which handles redis and socket.io as streams with observable magic
+     * Take a ride into madness
      */
-    dispatcher = new Dispatcher(io, opts);
-
-/**
- * Take a ride into madness
- */
-dispatcher.start();
+    dispatcher.start()
+});
